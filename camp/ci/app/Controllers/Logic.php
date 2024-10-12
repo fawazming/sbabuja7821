@@ -47,9 +47,9 @@ class Logic extends BaseController
 	{
         $Vendors = new \App\Models\Vendors();
         $vendors = $Vendors->find();
-        echo view('header');
+        // echo view('header');
 		echo view('vendors',['vendors'=>$vendors]);
-        echo view('footer');
+        // echo view('footer');
 	}
 
 	public function msg($mg = "Hello")
@@ -61,10 +61,10 @@ class Logic extends BaseController
 	{
 		$incoming = $this->request->getGet();
 		$Pins = new \App\Models\Pins();
+		$Variables = new \App\Models\Variables();
+        $varData = ['lb'=> explode(',',$Variables->where('name','lb')->find()[0]['value'])];
 		if($value = $Pins->where(['pin'=>$incoming['pin'],'used !='=>1])->find()){
-            // echo view('header');
-			echo view('home',['ref'=>$incoming['pin'], 'pinworth'=>$value[0]['worth']]);
-            echo view('footer');
+			echo view('home',['ref'=>$incoming['pin'], 'pinworth'=>$value[0]['worth'], 'var'=>$varData] );
 
 		}else{
 			$this->msg("The pin you entered is invalid");

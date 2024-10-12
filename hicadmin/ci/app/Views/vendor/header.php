@@ -58,7 +58,7 @@
 					<li class="nav-item dropdown ml-3">
 						<a class="nav-link dropdown-toggle no-arrow d-inline-flex align-items-center px-4" style="background-color: rgba(255,255,255,.1);" href="<?= base_url('vendor/logout') ?>">
 							<div class="d-none d-sm-inline-block mr-2 text-right">
-								<div class="font-weight-strong text-white">SB Osun</div>
+								<div class="font-weight-strong text-white">SB</div>
 								<div class="font-12"><?=$admin?></div>
 							</div>
 							<span class="position-relative d-inline-block"><img class="rounded-circle" src="<?=base_url('assets/logo.png')?>" alt="image" width="36" /><span class="badge-point badge-success avatar-badge"></span></span>

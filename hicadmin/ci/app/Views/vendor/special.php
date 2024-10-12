@@ -39,12 +39,12 @@
 							<input type="text" class="form-control" name="range" id="range" placeholder="">
 						</div>
 					</div>
-					<!-- <div class="mb-3 row">
+					<div class="mb-3 row">
 						<label for="range" class="col-sm-1-12 col-form-label">Worth</label>
 						<div class="col-sm-1-12">
 							<input type="text" class="form-control" name="worth" id="range" placeholder="Amount :: 6500,9500">
 						</div>
-					</div> -->
+					</div>
 					<div class="mb-3 row">
 						<label for="user" class="col-sm-1-12 col-form-label">Vendor</label>
 						<div class="col-sm-1-12">

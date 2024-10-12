@@ -28,15 +28,15 @@
                 </div>
                 <div class="mb-3">
                     <label for="lb" class="form-label">Zone</label>
-                    <select name="lb" id="lb" required>
+                    <select name="lb" id="lb"  class="form-control" required>
                         <option value="">Select a Zone</option>
-                        <option value="Ife|Olode">Ife|Olode</option>
-                        <option value="Ilesha">Ilesha</option>
-                        <option value="Osogbo|Ede">Osogbo|Ede</option>
-                        <option value="Ikirun|Ila|Okuku">Ikirun|Ila|Okuku</option>
-                        <option value="Iwo">Iwo</option>
-                        <option value="Akure|Owena|Ekiti">Akure|Owena|Ekiti</option>
-                        <option value="others">Others</option>
+                        <?php
+                            foreach ($var['lb'] as $lb):
+                        ?>
+                            <option value="<?=$lb?>"><?=$lb?></option>
+                        <?php
+                            endforeach;
+                        ?>
                     </select>
                 </div>
                 <!-- <div class="text-center form-check form-check-inline">
@@ -52,7 +52,7 @@
                 <h4>Contact Details</h4>
                 <div class="mb-3">
                     <label for="gender" class="form-label">Gender</label>
-                    <select name="gender" id="gender" required>
+                    <select name="gender" id="gender"  class="form-control" required>
                         <option value="">Select a gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -91,7 +91,7 @@
                 </div> -->
                 <div class="mb-3">
                     <label for="category" class="form-label">Category</label>
-                    <select name="category" id="category" required >
+                    <select name="category" id="category" class="form-control" required >
                         <option value="">Select a Category</option>
                         <option class="catg" value="Secondary School">Secondary School</option>
                         <option class="catg" value="School Leaver">School Leaver</option>
@@ -100,8 +100,8 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="sch" class="form-label">School/Course/Profession (Details of the above category)</label>
-                    <input type="sch" name="school" required id="sch" class="form-control" placeholder="" aria-describedby="sch">
+                    <label for="sch" class="form-label" id="schLabel">(Details of the above category)</label>
+                    <input type="sch" name="school" required id="sch" class="form-control" placeholder="" aria-describedby="sch" pattern="[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+" title="Follow the XXX/XXX/XXX format">
                     <input type="hidden"  name="ref" value=<?=$ref?> >
                     <input type="hidden"  name="old" value="0" >
                 </div>
@@ -137,8 +137,8 @@
             </fieldset>
         </div> -->
         <div class="text-center" id="btn1">
-            <button type="button" class="btn" disabled id="prev">Prev</button>
-            <button type="button" class="btn" id="next">Next</button>
+            <button type="button" class="btn forward" disabled id="prev">Prev</button>
+            <button type="button" class="btn forward" id="next">Next</button>
         </div>
         <div class="text-center d-none" id="btn2">
             <button type="submit" class="btn btn-success" id="reg">Confirm Registeration</button>
@@ -150,3 +150,19 @@
 
         </div>
         <script src="<?=base_url('assets/script.js')?>"></script>
+        <script>
+            let category = document.querySelector('#category')
+            let schLabel = document.querySelector('#schLabel')
+            category.addEventListener('change',()=>{
+                console.log(category.value)
+                if(category.value == "Secondary School"){
+                    schLabel.innerText = "School / Class / Department"
+                }else if(category.value == "School Leaver"){
+                    schLabel.innerText = "Admission status / Year passed out / Proposed Institution"
+                }else if(category.value == "Undergraduate"){
+                    schLabel.innerText = " Institution / Level / Course"
+                }else if(category.value == "Workers/Others"){
+                    schLabel.innerText = "Company Name / Profession / Status"
+                } 
+            })
+        </script>

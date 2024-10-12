@@ -21,7 +21,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="lb" class="form-label">Zone</label>
-                        <select name="lb" id="lb" required>
+                        <select name="lb" id="lb" class="form-control" required>
                             <option value="">Select a Zone</option>
                             <option value="Ife|Olode">Ife|Olode</option>
                             <option value="Ilesha">Ilesha</option>

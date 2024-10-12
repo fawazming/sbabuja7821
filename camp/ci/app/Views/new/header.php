@@ -53,22 +53,22 @@
 			<div class="col-lg-6 background-image p-0" data-background="url(assets/bg.jpg)">
 				<div class="content-left-wrapper opacity-mask d-flex align-items-center justify-content-center text-left"
 					data-opacity-mask="rgba(0, 0, 0, 0.4)">
-					<a href="#0" id="logo"><img src="assets/images/logo.png" alt="" width="44" height="44"></a>
+					<a href="#0" id="logo"><img src="https://camp.sbosun.org.ng/assets/logo.png" alt="" width="44" height="44"></a>
 					<div class="social">
 						<ul>
-							<li><a href="#0"><i class="bi bi-facebook"></i></a></li>
+							<!-- <li><a href="#0"><i class="bi bi-facebook"></i></a></li>
 							<li><a href="#0"><i class="bi bi-twitter"></i></a></li>
-							<li><a href="#0"><i class="bi bi-instagram"></i></a></li>
+							<li><a href="#0"><i class="bi bi-instagram"></i></a></li> -->
 						</ul>
 					</div>
 					<!-- /social -->
 					<div>
-						<h1><small>Standard Bearer </small><em>Holiday Islamic Course</em></h1>
+						<h1><small>STANDARD BEARERS <br> ISLAMIC ORGANIZATIONS (SB), ABUJA</small><em>Holiday Islamic Course</em></h1>
 						<div class="countdown">
-							<h4>05 June 2023 - London</h4>
+							<h4>2024 Edition</h4>
 						</div>
-						<!-- <p><a href="#panel_info" class="btn_info">Program and Info <i
-									class="bi bi-arrow-right-short"></i></a></p> -->
+						<p><a href="#panel_info" class="btn_info">Program and Info <i
+									class="bi bi-arrow-right-short"></i></a></p>
 					</div>
 					<a class="smoothscroll btn_scroll_to Bounce infinite" href="#wizard_container"><i
 							class="bi bi-arrow-down-short"></i></a>
