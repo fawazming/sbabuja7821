@@ -1,7 +1,11 @@
 <div class="col-lg-6 d-flex flex-column content-right">
 	<div class="container my-auto py-5">
 		<div class="row mb-5">
-			<a hx-get="<?=base_url('vendors')?>" hx-target="#app" hx-swap="replace"><button type="button" class="forward">Buy Pin</button></a>
+			<div class="col-12">
+				<a hx-get="<?=base_url('vendors')?>" hx-target="#app" hx-swap="replace"><button type="button" class="forward">Buy Pin via Vendors</button></a>
+				<a href="<?=base_url('payonline')?>"><button type="button" class="forward">Buy Pin Online</button></a>
+			</div>
+			
 		</div>
 		<div class="row"><br><br>
 			<div class="col-lg-9 col-xl-7 mx-auto" id="app">

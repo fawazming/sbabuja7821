@@ -24,9 +24,9 @@ class Logic extends BaseController
 
     public function payonline()
     {
-        echo view('header');
-        echo view('payonline');
-        echo view('footer');
+        echo view('new/header');
+        echo view('new/payonline');
+        echo view('new/footer');
     }
 
 	public function register($pin = '')
@@ -204,18 +204,63 @@ class Logic extends BaseController
     {
         $Tranx = new \App\Models\Tranx();
        $incoming = $this->request->getPost();
-       $amt = 510000;
-       $payment = $this->genPayLink($incoming['email'], $amt);
-        $payData = json_decode($payment['response']);
-        $payRef = $payment['ref'];
+    //    $amt = 510000;
+       $payData = $this->Pay($incoming['email'], $incoming['name']);
+       $payment = $payData['payment']; //stdClass
+       $user = $payData['user']; //Array
+    //    dd($payData);
+        // $ = json_decode($payment['response']);
+        // $payRef = $payment['ref'];
         $data = [
             'email' => $incoming['email'],
             'status' => 'Intialize',
-            'ref' => $payRef,
-            'url' => $payData->data->checkout_url
+            'ref' => $payment->trackingReference,
+            'url' => $payment->expire_date
         ];
         $Tranx->insert($data);
-        return redirect()->to($payData->data->checkout_url);
+        echo view('new/header');
+        echo view('new/transferPage', ['payment'=>$payment, 'user'=>$user]);
+        echo view('new/footer');
+        // return redirect()->to($payData->data->checkout_url);
+    }
+
+    private function Pay($email, $name)
+    {
+         $client = \Config\Services::curlrequest();
+ 
+         $response = $client->request('POST', 'https://api.payvessel.com/api/external/request/customerReservedAccount/', 
+             [
+                 'headers' => [
+                     'api-key' => $_ENV['PVKEY'],
+                     'api-secret'     => 'Bearer '.$_ENV['PVSECRET'],
+                     'Content-Type'      => 'application/json',
+                 ],
+                 'json' => [
+                     'email' => $email,
+                     'name' => $name,
+                     'phoneNumber' => '08012345678',
+                     'bankcode' => ['120001'],
+                     'account_type' => 'DYNAMIC',
+                     'businessid' => 'B259B99E0B0F41EE874B9549C40697F8',
+                 ],
+                 'http_errors' => false
+             ]
+             );
+         $status = $response->getStatusCode();
+         if($status < 400){
+             $data = [
+             'payment' => json_decode($response->getBody())->banks,
+             'user' => ['email'=>$email,'name'=>$name]
+         ];
+         // dd($data);
+         return $data;
+        } else{
+            echo "Please Check back later";
+        }
+    }
+
+    private function sampHook() {
+
     }
 
     public function webhook()
@@ -223,26 +268,72 @@ class Logic extends BaseController
         $Alerts = new \App\Models\Alerts();
         $Tranx = new \App\Models\Tranx();
 
-        $incoming = json_encode($this->request->getVar());
-        $id = $Alerts->insert(['message'=>$incoming, 'linked'=>0]);
-        $dt = json_decode($incoming);
-        $tranx = $Tranx->where('ref',$dt->ref)->find()[0];
-        $Tranx->update($tranx['id'], ['status'=>$dt->stat]);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // CSRF exemption
 
-        if($dt->stat == 'success'){
-            $Pins = new \App\Models\Pins();
-            $pins = $Pins->where('vendor','new')->find()[0];
-            $Pins->update($pins['id'], ['vendor'=>'online']);
-            $data = [
-                    'to' => $tranx['email'],
-                    'type' => 'link',
-                    'subject' => 'PMC Pin Purchase Successful',
-                    'message' => ['p1' => 'Al hamdulillah! Your pin purchase was successful.', 'p2'=>'Your Pin is '.$pins['pin'].'', 'p3' => 'Do continue your registeration by visiting https://camp.phfogun.org/register.', 'link'=>'https://camp.phfogun.org/register/'.$pins['pin'].'', 'linktext'=>'Click here to continue your registeration'],
-                ];
-                if ($this->mailer($data)) {
-                    $Tranx->update($tranx['id'], ['status'=>$pins['pin']]);
-                }
+            $payload = file_get_contents('php://input');
+            $payvessel_signature = $_SERVER['HTTP_PAYVESSEL_HTTP_SIGNATURE'];
+            //this line maybe be differ depends on your server
+            //$ip_address = $_SERVER['HTTP_X_FORWARDED_FOR']; 
+            $ip_address = $_SERVER['REMOTE_ADDR']; 
+            $secret = $_ENV['PVSECRET'];
+            $hashkey = hash_hmac('sha512', $payload, $secret);
+            $ipAddress = ["3.255.23.38", "162.246.254.36"];
+            
+            
+            if ($payvessel_signature == $hashkey && in_array($ip_address, $ipAddress)) {
+                $data = json_decode($payload, true);
+                $amount = floatval($data['order']['amount']);
+                $settlementAmt = floatval($data['order']['settlement_amount']);
+                $fee = floatval($data['order']['fee']);
+                $ref = $data['transaction']['reference'];
+                $stat = $data['order']['description'];
+                $settlementAmount = $settlementAmt;
+
+                $incoming = ['data'=>$data, 'amount'=>$amount,'settlementAmt'=>$settlementAmt,'fee'=>$fee,'ref'=>$ref,'stat'=>$stat,];
+
+                $id = $Alerts->insert(['message'=>$incoming, 'linked'=>0]);
+                
+                $tranx = $Tranx->where('ref',$ref)->find()[0];
+                $Tranx->update($tranx['id'], ['status'=>$stat]);
+                echo json_encode(["message" => "success"]);
+                http_response_code(200);
+                // if($dt->stat == 'success'){
+                //     $Pins = new \App\Models\Pins();
+                //     $pins = $Pins->where('vendor','new')->find()[0];
+                //     $Pins->update($pins['id'], ['vendor'=>'online']);
+                //     $data = [
+                //             'to' => $tranx['email'],
+                //             'type' => 'link',
+                //             'subject' => 'PMC Pin Purchase Successful',
+                //             'message' => ['p1' => 'Al hamdulillah! Your pin purchase was successful.', 'p2'=>'Your Pin is '.$pins['pin'].'', 'p3' => 'Do continue your registeration by visiting https://camp.phfogun.org/register.', 'link'=>'https://camp.phfogun.org/register/'.$pins['pin'].'', 'linktext'=>'Click here to continue your registeration'],
+                //         ];
+                //         if ($this->mailer($data)) {
+                //             $Tranx->update($tranx['id'], ['status'=>$pins['pin']]);
+                //         }
+                // }
+
+                // Check if reference already exists in your payment transaction table
+                // if (!paymentgateway::where('reference', $reference)->exists()) {
+                //     // Fund user wallet here
+                //     echo json_encode(["message" => "success"]);
+                //     http_response_code(200);
+                // } else {
+                //     echo json_encode(["message" => "transaction already exist"]);
+                //     http_response_code(200);
+                // }
+            } else {
+                echo json_encode(["message" => "Permission denied, invalid hash or ip address."]);
+                http_response_code(400);
+            }
+        } else {
+            // Handle other HTTP methods if needed
+            echo json_encode(["message" => "Method not allowed"]);
+            http_response_code(405);
         }
+
+        // $incoming = json_encode($this->request->getVar());
+        
     }
 
 public function webhk()

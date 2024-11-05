@@ -8,26 +8,19 @@
         <div class="row"><br><br>
             <h5>Get your Pin Directly</h5>
             <div class="container">
-                <form method="POST" action="<?=base_url('proceedpayonline')?>"
-                    style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <div class="" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                     <div class="mb-3 row" style="align-items: center;">
-                        <label for="inputName" class="col-sm-1-12 col-form-label">Full Name:</label>
-                        <div class="col-sm-1-12">
-                            <input type="text" class="form-control" name="name" id="name" placeholder="">
-                        </div>
-                    </div>
-                    <div class="mb-3 row" style="align-items: center;">
-                        <label for="inputName" class="col-sm-1-12 col-form-label">Email:</label>
-                        <div class="col-sm-1-12">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="">
-                        </div>
+                        <p>Kindly transfer a sum of N8060 to the bank details below:</p>
+                        <p>BANK: <?=$payment->bankName?></p>
+                        <p>ACC Number: <?=$payment->accountNumber?></p>
+                        <p>ACC Name: <?=$payment->accountName?></p>
                     </div>
                     <div class="mb-3 row">
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Pay ₦8000 + ₦50 (Charges)</button>
+                            <a href="" class="btn btn-primary">I have made the transfer</a>
                         </div>
                     </div>
-                </form>
+                </div>  
             </div>
         </div>
     </div>
