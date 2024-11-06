@@ -206,6 +206,9 @@ class Logic extends BaseController
        $incoming = $this->request->getPost();
     //    $amt = 510000;
        $payData = $this->Pay($incoming['email'], $incoming['name']);
+       if($payData == "Please Check back later"){
+        echo "Please Check back later";
+       }else{
        $payment = $payData['payment']; //stdClass
        $user = $payData['user']; //Array
     //    dd($payData);
@@ -222,6 +225,7 @@ class Logic extends BaseController
         echo view('new/transferPage', ['payment'=>$payment, 'user'=>$user]);
         echo view('new/footer');
         // return redirect()->to($payData->data->checkout_url);
+    }
     }
 
     private function Pay($email, $name)
@@ -255,7 +259,7 @@ class Logic extends BaseController
          // dd($data);
          return $data;
         } else{
-            echo "Please Check back later";
+            return "Please Check back later";
         }
     }
 
@@ -290,9 +294,9 @@ class Logic extends BaseController
                 $stat = $data['order']['description'];
                 $settlementAmount = $settlementAmt;
 
-                $incoming = ['data'=>$data, 'amount'=>$amount,'settlementAmt'=>$settlementAmt,'fee'=>$fee,'ref'=>$ref,'stat'=>$stat,];
+                $incoming = ['data'=>$data, 'amount'=>$amount,'settlementAmt'=>$settlementAmt,'fee'=>$fee,'ref'=>$ref,'stat'=>$stat];
 
-                $id = $Alerts->insert(['message'=>$incoming, 'linked'=>0]);
+                $id = $Alerts->insert(['message'=>json_encode($incoming), 'linked'=>0]);
                 
                 $tranx = $Tranx->where('ref',$ref)->find()[0];
                 $Tranx->update($tranx['id'], ['status'=>$stat]);
