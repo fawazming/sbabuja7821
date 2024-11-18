@@ -54,13 +54,13 @@ class Stat extends BaseController
 
 			$data = [
 				'total_del' => $Delegates->whereNotIn('ref',['m'])->countAllResults(),
-				'ife' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Ife|Olode')->countAllResults(),
-				'ilesha' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Ilesha')->countAllResults(),
-				'osogbo' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Osogbo|Ede')->countAllResults(),
-				'ikirun' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Ikirun|Ila|Okuku')->countAllResults(),
-				'iwo' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Iwo')->countAllResults(),
-				'akure' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Akure|Owena|Ekiti')->countAllResults(),
-				'others' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'others')->countAllResults(),
+				// Abuja Municipal (AMAC),Bwari Area Council,Gwagwalada,Kuje,Suleja,Others
+				'AMAC' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Abuja Municipal (AMAC)')->countAllResults(),
+				'Bwari' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Bwari Area Council')->countAllResults(),
+				'Gwagwalada' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Gwagwalada')->countAllResults(),
+				'Kuje' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Kuje')->countAllResults(),
+				'Suleja' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Suleja')->countAllResults(),
+				'Others' => $Delegates->whereNotIn('ref',['m'])->where('lb', 'Others')->countAllResults(),
 				'male' => $Delegates->whereNotIn('ref',['m'])->where('gender', 'male')->countAllResults(),
 				'female' => $Delegates->whereNotIn('ref',['m'])->where('gender', 'female')->countAllResults(),
 				'ssec' => $Delegates->whereNotIn('ref',['m'])->where('category', 'Secondary School')->countAllResults(),

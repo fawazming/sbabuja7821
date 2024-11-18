@@ -340,7 +340,7 @@ class Logic extends BaseController
         
     }
 
-public function webhk()
+    public function webhk()
     {
         $data = [
                     'to' => 'fawazpro27@gmail.com',

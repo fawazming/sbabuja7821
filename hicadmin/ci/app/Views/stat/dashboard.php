@@ -1,6 +1,7 @@
 </div>
 
 <!-- BEGIN: Page content-->
+<!-- Abuja Municipal (AMAC),Bwari Area Council,Gwagwalada,Kuje,Suleja,Others -->
 <div>
 	<h2 class="text-center">
 		General Registration Statistics
@@ -46,35 +47,30 @@
 					<h5 class="box-title text-center">Total By Zone</h5>
 					<div class="row">
 						<div class="col-md-2 col-sm-4 text-center">
-							<div class="easypie" data-percent="<?=(($ife/300)*100)?>" data-bar-color="#00bcd4" data-size="110" data-line-width="8"><span class="easypie-data text-info" style="font-size:32px;"><?=($ife)?></span></div>
-							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"> <a href="<?= base_url('admin/zone?zid=1') ?>">Ife/Olodo</a> </h6>
+							<div class="easypie" data-percent="<?=(($AMAC/300)*100)?>" data-bar-color="#00bcd4" data-size="110" data-line-width="8"><span class="easypie-data text-info" style="font-size:32px;"><?=($AMAC)?></span></div>
+							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"> <a href="<?= base_url('admin/zone?zid=1') ?>">AMAC</a> </h6>
 						</div>
 						<div class="col-md-2 col-sm-4 text-center">
-							<div class="easypie" data-percent="<?=(($ilesha/300)*100)?>" data-bar-color="#2949ef" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($ilesha)?></span></div>
-							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=2') ?>">Ilesha</a>
+							<div class="easypie" data-percent="<?=(($Bwari/300)*100)?>" data-bar-color="#2949ef" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($Bwari)?></span></div>
+							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=2') ?>">Bwari</a>
 							</h6>
 						</div>
 						<div class="col-md-2 col-sm-4 text-center">
-							<div class="easypie" data-percent="<?=(($osogbo/300)*100)?>" data-bar-color="#00bcd4" data-size="110" data-line-width="8"><span class="easypie-data text-info" style="font-size:32px;"><?=($osogbo)?></span></div>
-							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=3') ?>">Osogbo/Ede</a></h6>
+							<div class="easypie" data-percent="<?=(($Gwagwalada/300)*100)?>" data-bar-color="#00bcd4" data-size="110" data-line-width="8"><span class="easypie-data text-info" style="font-size:32px;"><?=($Gwagwalada)?></span></div>
+							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=3') ?>">Gwagwalada</a></h6>
 						</div>
 						<div class="col-md-2 col-sm-4 text-center">
-							<div class="easypie" data-percent="<?=(($ikirun/100)*100)?>" data-bar-color="#2949ef" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($ikirun)?></span></div>
-							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=4') ?>">Ikirun/Ila/Okuku</a>
+							<div class="easypie" data-percent="<?=(($Kuje/100)*100)?>" data-bar-color="#2949ef" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($Kuje)?></span></div>
+							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=4') ?>">Kuje</a>
 							</h6>
 						</div>
 						<div class="col-md-2 col-sm-4 text-center">
-							<div class="easypie" data-percent="<?=(($iwo/100)*100)?>" data-bar-color="#2949ef" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($iwo)?></span></div>
-							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=4') ?>">Iwo</a>
+							<div class="easypie" data-percent="<?=(($Suleja/100)*100)?>" data-bar-color="#2949ef" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($Suleja)?></span></div>
+							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=4') ?>">Suleja</a>
 							</h6>
 						</div>
 						<div class="col-md-2 col-sm-4 text-center">
-							<div class="easypie" data-percent="<?=(($akure/100)*100)?>" data-bar-color="#2949ef" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($akure)?></span></div>
-							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=4') ?>">Akure/Ekiti</a>
-							</h6>
-						</div>
-						<div class="col-md-2 col-sm-4 text-center">
-							<div class="easypie" data-percent="<?=(($others/100)*100)?>" data-bar-color="#ee1021" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($others) ?></span></div>
+							<div class="easypie" data-percent="<?=(($Others/100)*100)?>" data-bar-color="#2949ef" data-size="110" data-line-width="8"><span class="easypie-data text-primary" style="font-size:32px;"><?=($Others)?></span></div>
 							<h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal"><a href="<?= base_url('admin/zone?zid=4') ?>">Others</a>
 							</h6>
 						</div>
