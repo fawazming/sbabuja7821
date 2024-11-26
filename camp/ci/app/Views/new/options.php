@@ -31,7 +31,7 @@
 	</div>
 	<div class="container copy">
 		<span class="float-start">© SB HIC</span>
-		<a class="btn_help float-end" href="https://wa.me/+2348108097322" target="_blank"><i
+		<a class="btn_help float-end" href="https://wa.me/+2347034282245" target="_blank"><i
 				class="bi bi-question-circle"></i>Help</a>
 		<a class="btn_help float-end" href="#modal-pStatus" id="modal_p"><i class="bi bi-question-circle"></i>Pin Status
 			&nbsp; &nbsp; &nbsp;</a>
