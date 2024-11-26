@@ -9,7 +9,7 @@
                     <!-- <div class="row">
                         <a class="btn btn-secondary" href="<?=base_url('vendor/calibrate')?>" role="button">Calibrate Pin</a>
                     </div> -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col text-center">
                             <div class="easypie" data-percent="100" data-bar-color="#00bcd4" data-size="110" data-line-width="8"><span class="easypie-data text-info" style="font-size:32px;"><?=($tdel) ?></span></div>
                             <h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal">Total Delegates</h6>
@@ -34,15 +34,11 @@
                             <div class="easypie" data-percent="<?=($rpin/10) ?>" data-bar-color="#00bcd4" data-size="110" data-line-width="8"><span class="easypie-data text-info" style="font-size:32px;"><?=($opin) ?></span></div>
                             <h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal">Online pin</h6>
                         </div>
-                        <!-- <div class="col text-center">
-                            <div class="easypie" data-percent="<?=($spin/10) ?>" data-bar-color="#00bcd4" data-size="110" data-line-width="8"><span class="easypie-data text-info" style="font-size:32px;"><?=($spin) ?></span></div>
-                            <h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal">Sold pin</h6>
-                        </div> -->
                         <div class="col text-center">
                             <div class="easypie" data-percent="<?=($upin/10) ?>" data-bar-color="#00bcd4" data-size="110" data-line-width="8"><span class="easypie-data text-info" style="font-size:32px;"><?=($upin) ?></span></div>
                             <h6 class="mb-0 mt-3 font-15 text-muted font-weight-normal">Used pin</h6>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
