@@ -101,7 +101,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="sch" class="form-label" id="schLabel">(Details of the above category)</label>
-                    <input type="sch" name="school" id="sch" class="form-control" placeholder="" aria-describedby="sch" pattern="[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+" title="Follow the XXX/XXX/XXX format">
+                    <input type="sch" name="school" id="sch" class="form-control" placeholder="" aria-describedby="sch">
                     <input type="hidden"  name="ref" value=<?=$ref?> >
                     <input type="hidden"  name="old" value="0" >
                 </div>
