@@ -31,6 +31,10 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Logic::index');
+$routes->get('/m', 'Logic::modern');
+$routes->get('/m0', 'Logic::modern2');
+$routes->get('/sbidsearch', 'Logic::idsearch');
+$routes->get('/idsearch', 'Logic::idsearchj');
 $routes->get('/samp', 'Logic::samp');
 $routes->get('/buypin', 'Logic::buypin');
 $routes->get('/7c67ff5de8e5c90c/(:any)', 'Logic::vend/$1');
@@ -39,7 +43,14 @@ $routes->get('/register/(:any)', 'Logic::register/$1');
 $routes->get('/pinstatus', 'Logic::pinstatus');
 $routes->get('/vendors', 'Logic::vendors');
 $routes->get('/msg', 'Logic::msg');
-$routes->post('/register', 'Logic::registration');
+// $routes->post('/register', 'Logic::registration');
+
+$routes->post('/register', 'Logic::pregister');
+$routes->get('/regc', 'Logic::cregister');
+$routes->post('/registration', 'Logic::registration');
+$routes->get('/notification', 'Logic::notif');
+
+
 $routes->post('/sns/pmc', 'Logic::sms');
 $routes->get('pin', 'Logic::pin');
 $routes->get('samp', 'Logic::samp');

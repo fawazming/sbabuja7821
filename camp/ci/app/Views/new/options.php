@@ -4,6 +4,7 @@
 			<div class="col-12">
 				<marquee behavior="" direction="">The Online Payment Service is not available for now, kindly pay to the SB Abuja account number and request for registration PIN from any of the vendors</marquee>
 				<a hx-get="<?=base_url('vendors')?>" hx-target="#app" hx-swap="replace"><button type="button" class="forward">Buy Pin via Vendors</button></a>
+				<a href="<?=base_url('sbidsearch')?>"><button type="button" class="forward">Search for SB ID</button></a>
 				<!-- <a href="<?=base_url('payonline')?>"><button type="button" class="forward">Buy Pin Online</button></a> -->
 			</div>
 			

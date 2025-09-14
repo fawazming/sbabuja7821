@@ -7,13 +7,270 @@ use CodeIgniter\API\ResponseTrait;
 class Logic extends BaseController
 {
 	use ResponseTrait;
+    // protected $modelName = Delegates23::class;
+    protected $format = 'json';
+    
+    private $categories = [
+        'professionals' => 12605,
+        'undergraduate' => 12604,
+        'school_leaver' => 12600,
+        'secondary_school_student' => 10100,
+        'test' => 100,
+    ];
+
+    public function idsearchj()
+    {
+        // Get query parameters
+        $name = $this->request->getGet('name');
+        $gender = $this->request->getGet('gender');
+        $class = $this->request->getGet('class');
+        $id = $this->request->getGet('sbid');
+        $lb = $this->request->getGet('lb');
+        $category = $this->request->getGet('category');
+
+        // Build query with filters if provided
+        $builder = new \App\Models\Delegates23();;
+
+        if ($name && strlen($name) > 3) {
+            $builder->groupStart()
+                    ->like('fname', $name)
+                    ->orLike('lname', $name)
+                    ->groupEnd();
+        }
+        if ($lb) {
+            $builder->groupStart()
+                    ->like('lb', $lb)
+                    ->groupEnd();
+        }
+        if ($id) {
+            $builder->where('id',$id);
+        }
+        if ($gender) {
+            $builder->where('gender', $gender);
+        }
+        if ($class) {
+            $builder->where('lb', $zone);
+        }
+        if ($category) {
+            $builder->where('category', $category);
+        }
+
+        $results = $builder->get()->getResult();
+
+        // Return JSON response
+        return $this->respond($results);
+    }
+
+    public function modern() {
+    }
+
+    public function modern2() {
+        echo view('modern/hom');
+    }
+
 
 	public function index()
 	{
-        echo view('new/header');
-        echo view('new/options');
-		echo view('new/footer');
+        echo view('modern/header');
+        echo view('modern/home');
+		echo view('modern/footer');
 	}
+
+	public function idsearch()
+	{
+        echo view('modern/header');
+        echo view('modern/idsearch');
+		echo view('modern/footer');
+	}
+
+
+	public function register()
+	{
+        echo view('modern/header');
+        echo view('modern/register');
+		echo view('modern/footer');
+	}
+
+
+    public function pregister()
+    {
+        $incoming = $this->request->getPost();
+        $client = \Config\Services::curlrequest();
+
+        $url = $_ENV['gateway'].'/api/authorize';
+        $amount = explode('|',$incoming['category'])[1];
+        $headers = [
+            'Authorization' => 'Bearer '.$_ENV['st'],
+            'api-key' => $_ENV['ak'],
+            'Content-Type' => 'application/json',
+        ];
+
+        $data = [
+            'email' => $incoming['email'],
+            'amount' => $amount,
+            'callback' => $_ENV['callback'],
+        ];
+
+        try {
+            $response = $client->post($url, [
+                'headers' => $headers,
+                'json' => $data,
+            ]);
+
+            $body = $response->getBody();
+            $result = json_decode($body);
+
+            #insert data in DB
+            $pgtrans = new \App\Models\PgtransactionsModel();
+            $pgtrans->insert(['business_id'=>$_ENV['bid'],'access_code'=>$result->data->access_code, 'customer_phone'=>$result->data->reference, 'callback_url'=>$data['callback'], 'amount'=>$data['amount']]);
+
+            if (isset($result->data->authorization_url)) {
+                // Redirect to the authorization_url
+                return redirect()->to($result->data->authorization_url);
+            } else {
+                // Handle missing authorization_url
+                return $this->response->setStatusCode(400)->setJSON([
+                    'error' => 'Authorization URL not found in response',
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function notif() {
+        echo view('modern/header');
+        echo view('modern/notif');
+        echo view('modern/footer');
+    }
+
+
+    public function cregister() {
+        $ref1 = $this->request->getGet()['ref'];
+        $ref = substr($ref1, 3);
+
+        $pgModel = new \App\Models\PgtransactionsModel();
+
+        // Call the /verifypro/$ref endpoint to get verification data
+        $verifyUrl = $_ENV['gateway']."/verifypro/".$ref1;
+
+        // Use CodeIgniter HTTP client to call the verifypro endpoint
+        $client = \Config\Services::curlrequest();
+
+        try {
+            $response = $client->get($verifyUrl);
+
+            if ($response->getStatusCode() !== 200) {
+                return redirect()->to('/notification')->with('error', 'Verification failed.');
+            }
+
+            $verifyData = json_decode($response->getBody(), true)['data'];
+
+
+            if (!$verifyData) {
+                return redirect()->to('/notification')->with('error', 'Invalid verification response.');
+            }
+
+            // Fetch existing transaction by transaction_id (assuming $ref is transaction_id)
+            $existingTransaction = $pgModel->where('customer_phone',$ref)->first();
+
+            if (!$existingTransaction) {
+                return redirect()->to('/notification')->with('error', 'Transaction not found.');
+            }
+
+            // Compare amount, access_code, business_id
+            if (
+                floatval($existingTransaction['amount']) !== floatval($verifyData['amount']) ||
+                $existingTransaction['access_code'] !== $verifyData['access_code'] ||
+                $existingTransaction['business_id'] !== $verifyData['business_id']
+            ) {
+                return redirect()->to('/notification')->with('error', 'Transaction data mismatch.');
+            }
+
+            // Update the transaction with incoming data from verifyData
+            // Filter only allowed fields to update
+            $updateData = [];
+
+            $allowedFields = $pgModel->allowedFields;
+
+            foreach ($allowedFields as $field) {
+                if (isset($verifyData[$field])) {
+                    $updateData[$field] = $verifyData[$field];
+                }
+            }
+
+            $rr = $pgModel->set($updateData)->where('customer_phone',$ref)->update();
+
+            // Determine category for registration completion form
+            // Assuming category is part of verifyData or you can set default
+
+            $category = $this->getCategoryByAmount($verifyData['amount']);
+            // dd($category);
+
+            // Load the registration completion form view based on category
+            // Pass any data needed to the view
+
+            echo view("modern/header");
+            echo view("modern/creg", [
+                'email' => $verifyData['email'],
+                'category' => $category,
+                'ref' => $ref1,
+            ]);
+            echo view("modern/footer");
+        } catch (\Exception $e) {
+            // Log error if needed
+            log_message('error', 'Payment confirmation error: ' . $e->getMessage());
+            return redirect()->to('/notification')->with('error', 'An error occurred during payment confirmation.');
+        }
+        
+    }
+
+    /**
+     * Determine category based on amount
+     *
+     * @param int|float $amount
+     * @return string
+     */
+    public function getCategoryByAmount($amount)
+    {
+        foreach ($this->categories as $category => $price) {
+            if ($price == $amount) {
+                return $category;
+            }
+        }
+
+        return 'no category';
+    }
+    
+	public function registration()
+	{
+		$incoming = $this->request->getPost();
+        $Delegates23 = new \App\Models\Delegates23();
+        
+        $house = $this->generateHouse($incoming['gender']);
+        $incoming['house'] = $house;
+        $id = $Delegates23->insert($incoming);
+        // $Pins->update($pin['id'],['used'=>'1']); Update the transaction ID as used
+        return redirect()->to('/notification')->with('success', 'Congratulations! Your registration was successful <br> Reg. No: <b> '.$id.'</b> <br> Your house is <b>'.$house.'</b>');
+        // $this->msg('Congratulations! Your registration was successful <br> Reg. No: <b> '.$id.'</b> <br> Your house is <b>'.$house.'</b>');
+    		
+	}
+ 
+    // public function generateHouse($gender)
+    // {
+    //     $mHouses = ['Abu Bakr', 'Umar', 'Uthman', 'Alli'];
+    //     $fHouses = ['Khadijah', 'Aishah', 'Ummu Khultum', 'Ummu Salamah'];
+    //     if($gender=='male'){
+    //         $key = array_rand($mHouses);
+    //         return $mHouses[$key];
+    //     }else{
+    //         $key = array_rand($fHouses);
+    //         return $fHouses[$key];
+    //     }
+    // }
 
 	public function buypin()
 	{
@@ -28,13 +285,6 @@ class Logic extends BaseController
         echo view('new/payonline');
         echo view('new/footer');
     }
-
-	public function register($pin = '')
-	{
-        echo view('header');
-        echo view('pin', ['pin'=>$pin]);
-		echo view('footer');
-	}
 
 	public function pinstatus()
 	{
@@ -101,7 +351,7 @@ class Logic extends BaseController
         }
     }
 
-	public function registration()
+	public function registratio()
 	{
 		$incoming = $this->request->getPost();
 		$Pins = new \App\Models\Pins();
