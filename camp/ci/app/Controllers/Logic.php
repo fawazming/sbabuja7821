@@ -11,11 +11,11 @@ class Logic extends BaseController
     protected $format = 'json';
     
     private $categories = [
-        'professionals' => 12605,
-        'undergraduate' => 12604,
-        'school_leaver' => 12600,
-        'secondary_school_student' => 10100,
-        'test' => 100,
+        'professionals' => 105,
+        'undergraduate' => 104, 
+        'graduate' => 103, 
+        'school_leaver' => 102,
+        'secondary_school_student' => 101
     ];
 
     public function idsearchj()
@@ -153,6 +153,7 @@ class Logic extends BaseController
         $ref = substr($ref1, 3);
 
         $pgModel = new \App\Models\PgtransactionsModel();
+        $Delegates25 = new \App\Models\Delegates25();
 
         // Call the /verifypro/$ref endpoint to get verification data
         $verifyUrl = $_ENV['gateway']."/verifypro/".$ref1;
@@ -180,6 +181,14 @@ class Logic extends BaseController
             if (!$existingTransaction) {
                 return redirect()->to('/notification')->with('error', 'Transaction not found.');
             }
+
+            
+            $existingTXN = $Delegates25->where('txn',$ref1)->first();
+
+            if ($existingTXN) {
+                return redirect()->to('/notification')->with('error', 'This paid ticket is already used by '.$existingTXN['fname']);
+            }
+
 
             // Compare amount, access_code, business_id
             if (
@@ -248,29 +257,15 @@ class Logic extends BaseController
 	public function registration()
 	{
 		$incoming = $this->request->getPost();
-        $Delegates23 = new \App\Models\Delegates23();
+        $Delegates25 = new \App\Models\Delegates25();
         
         $house = $this->generateHouse($incoming['gender']);
         $incoming['house'] = $house;
-        $id = $Delegates23->insert($incoming);
+        $id = $Delegates25->insert($incoming);
         // $Pins->update($pin['id'],['used'=>'1']); Update the transaction ID as used
-        return redirect()->to('/notification')->with('success', 'Congratulations! Your registration was successful <br> Reg. No: <b> '.$id.'</b> <br> Your house is <b>'.$house.'</b>');
-        // $this->msg('Congratulations! Your registration was successful <br> Reg. No: <b> '.$id.'</b> <br> Your house is <b>'.$house.'</b>');
+        return redirect()->to('/notification')->with('success', 'Congratulations! Your registration was successful with Reg. No: '.$id.' <br> Your house is '.$house);
     		
 	}
- 
-    // public function generateHouse($gender)
-    // {
-    //     $mHouses = ['Abu Bakr', 'Umar', 'Uthman', 'Alli'];
-    //     $fHouses = ['Khadijah', 'Aishah', 'Ummu Khultum', 'Ummu Salamah'];
-    //     if($gender=='male'){
-    //         $key = array_rand($mHouses);
-    //         return $mHouses[$key];
-    //     }else{
-    //         $key = array_rand($fHouses);
-    //         return $fHouses[$key];
-    //     }
-    // }
 
 	public function buypin()
 	{

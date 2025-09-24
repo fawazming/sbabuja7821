@@ -43,7 +43,7 @@ $routes->get('/register/(:any)', 'Logic::register/$1');
 $routes->get('/pinstatus', 'Logic::pinstatus');
 $routes->get('/vendors', 'Logic::vendors');
 $routes->get('/msg', 'Logic::msg');
-// $routes->post('/register', 'Logic::registration');
+// $routes->post('/registration', 'Logic::registration');
 
 $routes->post('/register', 'Logic::pregister');
 $routes->get('/regc', 'Logic::cregister');

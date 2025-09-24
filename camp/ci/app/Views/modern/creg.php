@@ -13,7 +13,26 @@
 
     <!-- Step 2: Enter SBID -->
     <div id="sbid-section" class="fade hidden mt-6 space-y-5">
-      <h2 class="text-2xl font-semibold text-gray-800">Enter Your SBID</h2>
+      <!-- <h2 class="text-2xl font-semibold text-gray-800">Enter Your SBID</h2> -->
+      <div class="flex items-center space-x-2">
+        <!-- Go Back Icon -->
+        <button onclick="backCamp()" class="text-gray-600 hover:text-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" 
+              fill="none" viewBox="0 0 24 24" 
+              stroke-width="2" stroke="currentColor" 
+              class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <div class="">
+          <!-- Heading -->
+        <h2 class="text-2xl font-semibold text-gray-800">Enter Your SBID</h2>
+        <p>Forgot SBID? <a href="<?=base_url('sbidsearch')?>" target="_blank" rel="noopener noreferrer">Search Here</a></p>
+        </div>
+        
+      </div>
+
       <input type="text" id="sbid" placeholder="e.g., SB12345"
         class="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
       <button id="fetch-btn" onclick="fetchSBID()" 
@@ -27,8 +46,22 @@
     </div>
 
     <!-- Step 3: Registration Form -->
-    <form id="reg-form" class="fade hidden mt-6 space-y-5">
-      <h2 class="text-2xl font-semibold text-gray-800">Complete Your Registration</h2>
+    <form id="reg-frm" action="<?=base_url('registration')?>" method="post" class="fade hidden mt-6 space-y-5">
+      <!-- <h2 class="text-2xl font-semibold text-gray-800">Complete Your Registration</h2> -->
+      <div class="flex items-center space-x-2">
+        <!-- Go Back Icon -->
+        <button onclick="backCamp()" type="button" class="text-gray-600 hover:text-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" 
+              fill="none" viewBox="0 0 24 24" 
+              stroke-width="2" stroke="currentColor" 
+              class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <!-- Heading -->
+        <h2 class="text-2xl font-semibold text-gray-800">Complete Your Registration</h2>
+      </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -63,15 +96,31 @@
         </div>
 
         <div>
-          <label class="block text-gray-700 font-medium mb-1">School</label>
+          <label id="sch-label" class="block text-gray-700 font-medium mb-1">School</label>
           <input type="text" id="school" name="school" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
         </div>
       </div>
+      <input type="hidden" name="category" id="category" required value="<?=$category?>">
+            <!-- <input type="hidden" name="category" id="category" required value="professionals"> -->
+            <input type="hidden" name="txn" id="txn" required value="<?=$ref?>">
 
-      <div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        <div id="level-wrapper" class="mt-4">
+          <label id="level-label" class="text-xs font-medium text-gray-600">Level / Class</label>
+          <div id="level-field" class="mt-1 border-2"></div>
+        </div>
+
+        <div id="dept-wrapper" class="mt-4">
+          <label id="dept-label" class="text-xs font-medium text-gray-600">Department</label>
+          <div id="dept-field" class="mt-1 border-2"></div>
+        </div>
+      </div>
+
+      <!-- <div>
         <label class="block text-gray-700 font-medium mb-1">Level</label>
         <input type="text" id="level" name="level" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
-      </div>
+      </div> -->
 
       <button id="submit-btn" type="submit" 
         class="w-full px-6 py-3 bg-green-600 text-white rounded-xl shadow hover:bg-green-700 transition flex items-center justify-center space-x-2">
@@ -83,6 +132,136 @@
       </button>
     </form>
   </div>
+
+        
+<script>
+  const categoryEl = document.getElementById("category");
+  const levelField = document.getElementById("level-field");
+  const levelLabel = document.getElementById("level-label");
+  const deptField = document.getElementById("dept-field");
+  const deptLabel = document.getElementById("dept-label");
+  const schLabel = document.getElementById("sch-label");
+
+    const value = categoryEl.value;
+    levelField.innerHTML = ""; // clear previous field
+    deptField.innerHTML = ""; // clear previous field
+    
+
+    if (value === "secondary_school_student") {
+      const select = document.createElement("select");
+      select.name = "level";
+      select.id = "level";
+      select.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      levelLabel.textContent = "Class in School";
+
+      const deptS = document.createElement("select");
+      deptS.name = "dept";
+      deptS.id = "dept";
+      deptS.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      deptLabel.textContent = "Department in School";
+      schLabel.textContent = "Name of your school";
+
+      ["Junior_School","Science", "Humanities", "Business"].forEach(dep => {
+        const opt = document.createElement("option");
+        opt.value = dep;
+        opt.textContent = dep;
+        deptS.appendChild(opt);
+      });
+
+      ["JS1", "JS2", "JS3", "SS1", "SS2", "SS3"].forEach(lvl => {
+        const opt = document.createElement("option");
+        opt.value = lvl;
+        opt.textContent = lvl;
+        select.appendChild(opt);
+      });
+
+      levelField.appendChild(select);
+      deptField.appendChild(deptS);
+
+    } else if (value === "school_leaver") {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "level";
+      input.id = "level";
+      schLabel.textContent = "Where do you currently work?";
+
+      const Dinput = document.createElement("input");
+      Dinput.type = "text";
+      Dinput.name = "dept";
+      Dinput.id = "dept";
+      deptLabel.textContent = "Last School Attended";
+
+      levelLabel.textContent = "What are you engaged with";
+      input.placeholder = "As a school leaver, I'm currently engaged with...";
+      input.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      Dinput.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      levelField.appendChild(input);
+      deptField.appendChild(Dinput);
+
+    } else if (value === "undergraduate") {
+      const select = document.createElement("select");
+      select.name = "level";
+      select.id = "level";
+      select.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      levelLabel.textContent = "Level in Institution"
+      schLabel.textContent = "Institution Name";
+
+      
+      const Dinput = document.createElement("input");
+      Dinput.type = "text";
+      Dinput.name = "dept";
+      Dinput.id = "dept";
+      deptLabel.textContent = "Course of Study";
+      Dinput.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      deptField.appendChild(Dinput);
+
+      [" ", "100L", "200L", "300L", "400L", "500L", "600L"].forEach(lvl => {
+        const opt = document.createElement("option");
+        opt.value = lvl;
+        opt.textContent = lvl;
+        select.appendChild(opt);
+      });
+
+      levelField.appendChild(select);
+    } else if (value === "graduate") {
+      schLabel.textContent = "Institution Graduated From";
+      const Dinput = document.createElement("input");
+      Dinput.type = "text";
+      Dinput.name = "dept";
+      Dinput.id = "dept";
+      deptLabel.textContent = "NYSC Status";
+      Dinput.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      deptField.appendChild(Dinput);
+      
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "level";
+      input.id = "level";
+      levelLabel.textContent = "Course of Study";
+      input.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      levelField.appendChild(input);
+
+    } else if (value === "professionals") {
+      const Dinput = document.createElement("input");
+      Dinput.type = "text";
+      Dinput.name = "dept";
+      Dinput.id = "dept";
+      deptLabel.textContent = "Skills/Area of Expertise";
+      Dinput.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      deptField.appendChild(Dinput);
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "level";
+      input.id = "level";
+      levelLabel.textContent = "Occupation / Job"
+      schLabel.textContent = "Employer / Organization Name";
+      
+      input.placeholder = "Current job role...";
+      input.className = "mt-1 w-full rounded-lg border-gray-700 p-3";
+      levelField.appendChild(input);
+    }
+</script>
 
   <script>
     let userData = {};
@@ -103,6 +282,10 @@
       } else {
         showSection("reg-form");
       }
+    }
+
+    function backCamp() {
+        showSection("camp-check");
     }
 
     async function fetchSBID() {
@@ -146,41 +329,41 @@
       }
     }
 
-    document.getElementById("reg-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById("submit-btn");
-      const spinner = document.getElementById("submit-spinner");
-      const text = document.getElementById("submit-text");
+    // document.getElementById("reg-form").addEventListener("submit", async (e) => {
+    //   e.preventDefault();
+    //   const btn = document.getElementById("submit-btn");
+    //   const spinner = document.getElementById("submit-spinner");
+    //   const text = document.getElementById("submit-text");
 
-      btn.disabled = true;
-      spinner.classList.remove("hidden");
-      text.textContent = "Submitting...";
+    //   btn.disabled = true;
+    //   spinner.classList.remove("hidden");
+    //   text.textContent = "Submitting...";
 
-      const formData = {
-        name: document.getElementById("name").value,
-        zone: document.getElementById("zone").value,
-        gender: document.getElementById("gender").value,
-        phone: document.getElementById("phone").value,
-        email: document.getElementById("email").value,
-        school: document.getElementById("school").value,
-        level: document.getElementById("level").value
-      };
+    //   const formData = {
+    //     name: document.getElementById("name").value,
+    //     zone: document.getElementById("zone").value,
+    //     gender: document.getElementById("gender").value,
+    //     phone: document.getElementById("phone").value,
+    //     email: document.getElementById("email").value,
+    //     school: document.getElementById("school").value,
+    //     level: document.getElementById("level").value
+    //   };
 
-      try {
-        const res = await fetch("/api/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
-        });
-        const result = await res.json();
-        alert("Registration successful!");
-      } catch (error) {
-        alert("Registration failed: " + error.message);
-      } finally {
-        btn.disabled = false;
-        spinner.classList.add("hidden");
-        text.textContent = "Submit";
-      }
-    });
+    //   try {
+    //     const res = await fetch("/api/register", {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(formData)
+    //     });
+    //     const result = await res.json();
+    //     alert("Registration successful!");
+    //   } catch (error) {
+    //     alert("Registration failed: " + error.message);
+    //   } finally {
+    //     btn.disabled = false;
+    //     spinner.classList.add("hidden");
+    //     text.textContent = "Submit";
+    //   }
+    // });
   </script>
 </div>
