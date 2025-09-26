@@ -274,15 +274,15 @@ class Logic extends BaseController
         $pgModel = new \App\Models\PgtransactionsModel();
 
         //Confirm amount vs Category before actual registration
-        // $existingTransaction = $pgModel->where('customer_phone',$incoming['txn'])->first();    
-        // if($this->getCategoryByAmount($existingTransaction['currency']) == $incoming['category']){
+        $existingTransaction = $pgModel->where('customer_phone',$incoming['txn'])->first();    
+        if($this->getCategoryByAmount($existingTransaction['currency']) == $incoming['category']){
             $house = $this->generateHouse($incoming['gender']);
             $incoming['house'] = $house;
-            // $id = $Delegates25->insert($incoming);
+            $id = $Delegates25->insert($incoming);
             $this->slipv($incoming);
-        // }else{
-        //     return redirect()->to('/notification')->with('error', 'An error occurred during category vs amount confirmation.');
-        // }
+        }else{
+            return redirect()->to('/notification')->with('error', 'An error occurred during category vs amount confirmation.');
+        }
         
 	}
 
