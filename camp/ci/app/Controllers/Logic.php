@@ -271,12 +271,19 @@ class Logic extends BaseController
 	{
 		$incoming = $this->request->getPost();
         $Delegates25 = new \App\Models\Delegates25();
-    
-        $house = $this->generateHouse($incoming['gender']);
-        $incoming['house'] = $house;
-        $id = $Delegates25->insert($incoming);
-        $this->slipv($incoming);
-        // return redirect()->to('/notification')->with('success', 'Congratulations! Your registration was successful with Reg. No: '.$id.' <br> Your house is '.$house);		
+        $pgModel = new \App\Models\PgtransactionsModel();
+
+        //Confirm amount vs Category before actual registration
+        // $existingTransaction = $pgModel->where('customer_phone',$incoming['txn'])->first();    
+        // if($this->getCategoryByAmount($existingTransaction['currency']) == $incoming['category']){
+            $house = $this->generateHouse($incoming['gender']);
+            $incoming['house'] = $house;
+            // $id = $Delegates25->insert($incoming);
+            $this->slipv($incoming);
+        // }else{
+        //     return redirect()->to('/notification')->with('error', 'An error occurred during category vs amount confirmation.');
+        // }
+        
 	}
 
 	private function slipv($data)

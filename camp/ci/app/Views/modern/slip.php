@@ -77,7 +77,8 @@
             <!-- QR Code section -->
             <div class="mt-6 flex flex-col items-center justify-center">
                 <!-- A placeholder for an actual QR code image -->
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=<?=base_url('/verifypro/'.$txn)?>" alt="QR Code" class="w-24 h-24">
+                <?php $qrdata = urlencode('Name: '.$fname.' '.$lname.' '.'TXN: '.$txn); ?>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=<?=$qrdata?>" alt="QR Code" class="w-24 h-24">
                 <p class="text-xs text-gray-500 mt-2">Scan for entry</p>
             </div>
         </div>
