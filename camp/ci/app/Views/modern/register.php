@@ -23,7 +23,7 @@
             <option value="Undergraduate|104">Undergraduate</option>
             <option value="Graduate|103">Graduate</option>
             <option value="SchoolLeaver|102">School Leaver</option>
-            <option value="SSS|101">Secondary School Student</option>
+            <option value="SSS|100">Secondary School Student</option>
           </select>
         </div>
 

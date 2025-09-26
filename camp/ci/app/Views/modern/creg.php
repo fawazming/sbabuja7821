@@ -312,6 +312,7 @@
 
         // Prefill form
         document.getElementById("name").value = userData.fname || "";
+        document.getElementById("lname").value = userData.lname || "";
         document.getElementById("zone").value = userData.lb || "";
         document.getElementById("gender").value = userData.gender || "";
         document.getElementById("phone").value = userData.phone || "";

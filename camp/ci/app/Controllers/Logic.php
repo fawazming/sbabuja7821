@@ -15,7 +15,7 @@ class Logic extends BaseController
         'undergraduate' => 104, 
         'graduate' => 103, 
         'school_leaver' => 102,
-        'secondary_school_student' => 101
+        'secondary_school_student' => 100
     ];
 
     public function idsearchj()
@@ -43,7 +43,16 @@ class Logic extends BaseController
                     ->groupEnd();
         }
         if ($id) {
-            $builder->where('id',$id);
+            if(strlen($id)>3){
+                $code = $id;
+                $matches = [];
+                if (preg_match('/SBB00(\d+)/', $code, $matches)) {
+                $number = ltrim($matches[1]);
+                $builder->where('id',$number);
+                }
+            }else{
+                $builder->where('id',$id);
+            }
         }
         if ($gender) {
             $builder->where('gender', $gender);
