@@ -19,7 +19,7 @@
         }
     </style>
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-4xl font-bold text-center mb-8 text-shadow-lg">SEARCH FOR DELEGATE BY SB ID OR FULLNAME OR AREA COUNCIL OR GENDER</h1>
+        <h1 class="text-4xl font-bold text-center mb-8 text-shadow-lg">SEARCH FOR DELEGATE</h1>
         
         <form id="searchForm" class="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-6 shadow-2xl max-w-4xl mx-auto mb-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -37,6 +37,17 @@
                     </select>
                 </div>
                 <div>
+                    <label for="category" class="block text-sm font-medium mb-2">Category:</label>
+                    <select id="category" class="w-full px-3 py-2 rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Select Category</option>
+                        <option value="Secondary School">Secondary School</option>
+                        <option value="Workers/Others">Workers/Others</option>
+                        <option value="Undergraduate">Undergraduate</option>
+                        <option value="	School Leaver">	School Leaver</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <!-- <div>
                     <label for="class" class="block text-sm font-medium mb-2">Class:</label>
                     <select id="class" class="w-full px-3 py-2 rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">Select Class</option>
@@ -44,33 +55,26 @@
                         <option value="SSS">SSS</option>
                         <option value="Other">Other</option>
                     </select>
-                </div>
-                <div>
-                    <label for="zones" class="block text-sm font-medium mb-2">Zones:</label>
-                    <input type="text" id="zones" class="w-full px-3 py-2 rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter zones">
-                </div>
-                <div>
-                    <label for="category" class="block text-sm font-medium mb-2">Category:</label>
-                    <select id="category" class="w-full px-3 py-2 rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Select Category</option>
-                        <option value="Junior">Junior</option>
-                        <option value="Senior">Senior</option>
-                        <option value="Other">Other</option>
+                </div> -->
+                <!-- <div>
+                    <label for="zones" class="block text-sm font-medium mb-2">Zones/Area Council:</label>
+                    <select id="zones" name="lb" class="w-full px-3 py-2 rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Select a Zone/Area Council</option>
+                        <option value="Bwari">Bwari</option>
+                        <option value="AMAC">AMAC</option>
+                        <option value="Kuje">Kuje</option>
+                        <option value="GwaGwalada">GwaGwalada</option>
+                        <option value="Abaji">Abaji</option>
+                        <option value="Suleja Zone">Suleja Zone</option>
+                        <option value="Others">Other Nothern Zone</option>
                     </select>
-                </div>
-                <div>
-                    <label for="view" class="block text-sm font-medium mb-2">View:</label>
-                    <select id="view" class="w-full px-3 py-2 rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Select View</option>
-                        <option value="List">List</option>
-                        <option value="Grid">Grid</option>
-                    </select>
-                </div>
-            </div>
+                </div> -->
+                
             <button type="submit" class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Search</button>
+    </div>
         </form>
 
-        <div class="text-center mb-4">
+        <div class="flex justify-center text-center mb-4">
             <div id="loader" class="loader"></div>
             <p id="loadingText" class="hidden">Searching...</p>
         </div>
@@ -100,18 +104,18 @@
             
             const name = document.getElementById('name').value;
             const gender = document.getElementById('gender').value;
-            const classVal = document.getElementById('class').value;
-            const zones = document.getElementById('zones').value;
+            // const classVal = document.getElementById('class').value;
+            // const zones = document.getElementById('zones').value;
             const category = document.getElementById('category').value;
-            const view = document.getElementById('view').value;
+            // const view = document.getElementById('view').value;
             
             const queryParams = new URLSearchParams();
             if (name) queryParams.append('name', name);
             if (gender) queryParams.append('gender', gender);
-            if (classVal) queryParams.append('class', classVal);
-            if (zones) queryParams.append('lb', zones);
+            // if (classVal) queryParams.append('class', classVal);
+            // if (zones) queryParams.append('lb', zones);
             if (category) queryParams.append('category', category);
-            if (view) queryParams.append('view', view);
+            // if (view) queryParams.append('view', view);
             
             const url = '<?=base_url()?>/idsearch?' + queryParams.toString();
             

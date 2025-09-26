@@ -47,6 +47,7 @@ $routes->get('/msg', 'Logic::msg');
 
 $routes->post('/register', 'Logic::pregister');
 $routes->get('/regc', 'Logic::cregister');
+$routes->get('/slip', 'Logic::slip');
 $routes->post('/registration', 'Logic::registration');
 $routes->get('/notification', 'Logic::notif');
 

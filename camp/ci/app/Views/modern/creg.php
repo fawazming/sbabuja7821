@@ -65,19 +65,32 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="block text-gray-700 font-medium mb-1">Name</label>
-          <input type="text" id="name" name="name" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
+          <label class="block text-gray-700 font-medium mb-1">First Name</label>
+          <input type="text" id="name" required name="fname" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1">Zone</label>
-          <input type="text" id="zone" name="zone" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
+          <label class="block text-gray-700 font-medium mb-1">Surname</label>
+          <input type="text" id="lname" required name="lname" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Zone/Area Council</label>
+          <select id="zone" name="lb" required class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400">
+            <option value="">Select a Zone/Area Council</option>
+            <option value="Bwari">Bwari</option>
+            <option value="AMAC">AMAC</option>
+            <option value="Kuje">Kuje</option>
+            <option value="GwaGwalada">GwaGwalada</option>
+            <option value="Abaji">Abaji</option>
+            <option value="Suleja Zone">Suleja Zone</option>
+            <option value="Others">Other Nothern Zone</option>
+          </select>
         </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label class="block text-gray-700 font-medium mb-1">Gender</label>
-          <select id="gender" name="gender" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400">
+          <select id="gender" name="gender" required class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400">
             <option value="">Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -85,24 +98,25 @@
         </div>
         <div>
           <label class="block text-gray-700 font-medium mb-1">Phone</label>
-          <input type="tel" id="phone" name="phone" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
+          <input type="tel" id="phone" name="phone" required class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
         </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label class="block text-gray-700 font-medium mb-1">Email</label>
-          <input type="email" id="email" value="<?=$email?>" name="email" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
+          <input type="email" id="email" required value="<?=$email?>" name="email" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
         </div>
 
         <div>
           <label id="sch-label" class="block text-gray-700 font-medium mb-1">School</label>
-          <input type="text" id="school" name="school" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
+          <input type="text" id="school" required name="school" class="w-full border rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400"/>
         </div>
       </div>
       <input type="hidden" name="category" id="category" required value="<?=$category?>">
             <!-- <input type="hidden" name="category" id="category" required value="professionals"> -->
             <input type="hidden" name="txn" id="txn" required value="<?=$ref?>">
+            <input type="hidden" name="sbid" id="sbidv">
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
@@ -319,6 +333,7 @@
         document.getElementById("email").value = userData.email || "";
         document.getElementById("school").value = userData.school || "";
         document.getElementById("level").value = userData.level || "";
+        document.getElementById("sbidv").value = sbid || "";
 
         showSection("reg-form");
       } catch (error) {

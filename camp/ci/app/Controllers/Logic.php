@@ -271,20 +271,24 @@ class Logic extends BaseController
 	{
 		$incoming = $this->request->getPost();
         $Delegates25 = new \App\Models\Delegates25();
-        
+    
         $house = $this->generateHouse($incoming['gender']);
         $incoming['house'] = $house;
         $id = $Delegates25->insert($incoming);
-        // $Pins->update($pin['id'],['used'=>'1']); Update the transaction ID as used
-        return redirect()->to('/notification')->with('success', 'Congratulations! Your registration was successful with Reg. No: '.$id.' <br> Your house is '.$house);
-    		
+        $this->slipv($incoming);
+        // return redirect()->to('/notification')->with('success', 'Congratulations! Your registration was successful with Reg. No: '.$id.' <br> Your house is '.$house);		
 	}
 
-	public function buypin()
+	private function slipv($data)
 	{
-        echo view('header');
-        echo view('buypin');
-		echo view('footer');
+        echo view('modern/header');
+        echo view('modern/slip', $data);
+		echo view('modern/footer');
+	}
+
+	public function slip()
+	{
+        echo view('modern/header');
 	}
 
     public function payonline()
