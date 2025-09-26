@@ -217,6 +217,10 @@ class Logic extends BaseController
             // Assuming category is part of verifyData or you can set default
 
             $category = $this->getCategoryByAmount($verifyData['amount']);
+            
+            if (!$category) {
+                return redirect()->to('/notification')->with('error', 'This paid ticket has an invalid category for '.$verifyData['amount']);
+            }
             // dd($category);
 
             // Load the registration completion form view based on category
@@ -251,7 +255,7 @@ class Logic extends BaseController
             }
         }
 
-        return 'no category';
+        return null;
     }
     
 	public function registration()

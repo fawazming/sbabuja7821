@@ -46,7 +46,7 @@
     </div>
 
     <!-- Step 3: Registration Form -->
-    <form id="reg-frm" action="<?=base_url('registration')?>" method="post" class="fade hidden mt-6 space-y-5">
+    <form id="reg-form" action="<?=base_url('registration')?>" method="post" class="fade hidden mt-6 space-y-5">
       <!-- <h2 class="text-2xl font-semibold text-gray-800">Complete Your Registration</h2> -->
       <div class="flex items-center space-x-2">
         <!-- Go Back Icon -->
