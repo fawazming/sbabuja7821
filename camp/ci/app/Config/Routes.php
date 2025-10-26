@@ -43,10 +43,18 @@ $routes->get('/register/(:any)', 'Logic::register/$1');
 $routes->get('/pinstatus', 'Logic::pinstatus');
 $routes->get('/vendors', 'Logic::vendors');
 $routes->get('/msg', 'Logic::msg');
+
+$routes->get('/genpin', 'PinGenerator::generate');
+
+$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
+    $routes->get('verify-pin', 'PinsController::verifyPin');
+    $routes->get('pin-status', 'PinsController::pinStatus');
+});
+
 // $routes->post('/registration', 'Logic::registration');
 
 $routes->post('/register', 'Logic::pregister');
-$routes->get('/regc', 'Logic::cregister');
+$routes->get('/regc', 'Logic::cregisterPin');
 $routes->get('/slip', 'Logic::slip');
 $routes->post('/registration', 'Logic::registration');
 $routes->get('/notification', 'Logic::notif');

@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 
 class Pins extends Model
 {
-    protected $table = 'pins_23';
+    protected $table = 'pins_25';
     protected $primaryKey = 'id';
 
     protected $returnType = 'array';

@@ -250,6 +250,86 @@ class Logic extends BaseController
         
     }
 
+
+    public function cregisterPin() {
+        $ref = $this->request->getGet()['ref'];
+        // $ref = substr($ref1, 3);
+
+        $Pins = new \App\Models\Pins();
+        $Delegates25 = new \App\Models\Delegates25();
+
+        // Use CodeIgniter HTTP client to call the verifypro endpoint
+        $client = \Config\Services::curlrequest();
+
+        try {
+            $verifyPin = $Pins->where('pin',$ref)->first();
+            $verifyData = $verifyPin;
+
+
+            if (!$verifyData) {
+                return redirect()->to('/notification')->with('error', 'Invalid verification response.');
+            }
+
+            // Fetch existing transaction by transaction_id (assuming $ref is transaction_id)
+            // $existingTransaction = $verifyPin;
+
+            // if (!$existingTransaction) {
+            //     return redirect()->to('/notification')->with('error', 'Transaction not found.');
+            // }
+
+            
+            $existingTXN = $Delegates25->where('txn',$ref)->first();
+
+            if ($existingTXN) {
+                return redirect()->to('/notification')->with('error', 'This pin is already used by '.$existingTXN['fname']);
+            }
+
+
+            // Compare amount, access_code, business_id
+            if ($verifyPin['used']) {
+                return redirect()->to('/notification')->with('error', 'Pin has been used');
+            }
+
+            // Update the transaction with incoming data from verifyData
+            // Filter only allowed fields to update
+            // $updateData = [];
+
+            // $allowedFields = $pgModel->allowedFields;
+
+            // foreach ($allowedFields as $field) {
+            //     if (isset($verifyData[$field])) {
+            //         $updateData[$field] = $verifyData[$field];
+            //     }
+            // }
+
+            // $rr = $pgModel->set($updateData)->where('customer_phone',$ref)->update();
+
+            // Determine category for registration completion form
+            // Assuming category is part of verifyData or you can set default
+
+            // $category = $this->getCategoryByAmount($verifyData['amount']);
+            
+            // if (!$category) {
+            //     return redirect()->to('/notification')->with('error', 'This paid ticket has an invalid category for '.$verifyData['amount']);
+            // }
+            // dd($category);
+
+            // Load the registration completion form view based on category
+            // Pass any data needed to the view
+
+            echo view("modern/header");
+            echo view("modern/cregpin", [
+                'ref' => $ref,
+            ]);
+            echo view("modern/footer");
+        } catch (\Exception $e) {
+            // Log error if needed
+            log_message('error', 'Payment confirmation error: ' . $e->getMessage());
+            return redirect()->to('/notification')->with('error', 'An error occurred during payment confirmation.');
+        }
+        
+    }
+
     /**
      * Determine category based on amount
      *
